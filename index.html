@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TADEO - Formación y Soluciones de Gestión</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* === ESTILOS GLOBALES Y DE SECCIONES ANTERIORES (Sin cambios importantes aquí) === */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --primary-color: #005A9C; --secondary-color: #00AEEF; --accent-color: #F39C12;
+            --text-color: #34495E; --light-text-color: #f8f9fa; --background-color: #FFFFFF;
+            --light-gray-bg: #ECF0F1; --border-color: #D5DBDB;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+            --card-hover-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            --font-primary: 'Poppins', sans-serif; --font-secondary: 'Open Sans', sans-serif;
+        }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-secondary); line-height: 1.7; color: var(--text-color); background-color: var(--background-color); font-size: 16px; }
+        .container { width: 90%; max-width: 1200px; margin: 0 auto; padding: 0 15px; }
+        h1, h2, h3, h4 { font-family: var(--font-primary); font-weight: 600; line-height: 1.3; }
+        h1 { font-size: clamp(2.5rem, 6vw, 3.8rem); margin-bottom: 0.3em; color: var(--primary-color); font-weight:700; }
+        h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); margin-bottom: 1em; color: var(--primary-color); text-align: center;}
+        h3 { font-size: clamp(1.4rem, 3vw, 2rem); margin-bottom: 1.5rem; color: var(--primary-color); border-bottom: 3px solid var(--secondary-color); padding-bottom: 0.6rem; text-align: left; }
+        h4 { font-size: clamp(1.1rem, 2.5vw, 1.3rem); margin-bottom: 0.6rem; color: var(--primary-color); font-weight:600; }
+        a { text-decoration: none; color: var(--secondary-color); transition: color 0.3s ease; }
+        a:hover { color: var(--accent-color); }
+        img { max-width: 100%; height: auto; display: block; border-radius: 4px; }
+        ul { list-style: none; }
+
+        .site-header { background-color: var(--background-color); padding: 1rem 0; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; border-bottom: 4px solid var(--primary-color); }
+        .header-content { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 2rem; font-weight: 700; color: var(--primary-color); text-transform: uppercase; letter-spacing: 1.5px; }
+        .main-navigation ul { display: flex; gap: 1.2rem; flex-wrap: wrap; }
+        .main-navigation a { font-family: var(--font-primary); font-weight: 600; color: var(--text-color); padding: 0.5rem 0.2rem; position: relative; font-size: 0.95rem; }
+        .main-navigation a::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 3px; background-color: var(--accent-color); transition: width 0.3s ease; }
+        .main-navigation a:hover::after, .main-navigation a.active::after { width: 100%; }
+        .menu-toggle { display: none; background: none; border: none; font-size: 1.8rem; color: var(--primary-color); cursor: pointer; }
+
+        .hero { background: linear-gradient(rgba(0, 90, 156, 0.85), rgba(0, 90, 156, 0.75)), url('https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1') no-repeat center center/cover; color: var(--light-text-color); padding: clamp(4rem, 15vh, 8rem) 0; text-align: center; }
+        .hero .hero-title { color: var(--light-text-color); font-weight: 700; margin-bottom: 0.5em; }
+        .hero p { font-size: clamp(1.1rem, 2.5vw, 1.4rem); margin-bottom: 2.5rem; max-width: 780px; margin-left: auto; margin-right: auto; opacity: 0.95; font-weight: 300; }
+        .cta-button { display: inline-block; font-family: var(--font-primary); font-weight: 600; padding: 0.9rem 2.2rem; border-radius: 50px; text-decoration: none; transition: all 0.3s ease; font-size: 1.1rem; cursor: pointer; border: 2px solid transparent; }
+        .cta-button { background-color: var(--accent-color); color: var(--light-text-color); border-color: var(--accent-color); }
+        .cta-button:hover { background-color: #d88c0a; border-color: #d88c0a; color: var(--light-text-color); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.15); }
+
+        .section-padding { padding: 4rem 0; }
+        .section-padding.bg-light { background-color: var(--light-gray-bg); }
+        .section-subtitle { text-align: center; color: var(--text-color); font-size: 1.15rem; margin-bottom: 3rem; max-width: 750px; margin-left: auto; margin-right: auto; }
+        
+        .services-main-section {} 
+        .service-category-group { margin-bottom: 3.5rem; }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
+        .service-card { background-color: var(--background-color); border-radius: 10px; box-shadow: var(--card-shadow); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.3s ease, box-shadow 0.3s ease; border: 1px solid var(--border-color); height: 100%; }
+        .service-card:hover { transform: translateY(-8px); box-shadow: var(--card-hover-shadow); }
+        .service-card-image-container { width: 100%; height: 200px; overflow: hidden; background-color: #e0e6e8; display:flex; align-items:center; justify-content:center; border-bottom: 1px solid var(--border-color); }
+        .service-card-image-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+        .service-card:hover .service-card-image-container img { transform: scale(1.05); }
+        .service-card-image-container .placeholder-icon { font-size: 3.5rem; color: var(--secondary-color); opacity: 0.7; }
+        .service-card-content { padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; }
+        .service-card-content h4 { font-size: 1.2rem; color: var(--primary-color); margin-bottom: 0.75rem; font-weight: 600; }
+        .service-card-description { font-size: 0.95rem; color: #555; margin-bottom: 1.2rem; flex-grow: 1; line-height: 1.6; }
+        .service-card-link-wrapper { margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border-color); text-align: right; }
+        .service-card-link { display: inline-block; background-color: var(--secondary-color); color: var(--light-text-color); padding: 0.6rem 1.3rem; border-radius: 25px; font-weight: 600; font-size: 0.9rem; transition: background-color 0.3s ease, color 0.3s ease; text-transform: uppercase; letter-spacing: 0.5px; }
+        .service-card-link:hover { background-color: var(--primary-color); color: var(--light-text-color); }
+        .service-card-link.disabled { background-color: #bdc3c7; color: #7f8c8d; cursor:default; }
+        .service-card-link.disabled:hover { background-color: #bdc3c7; }
+        
+        .loading-placeholder, .info-message, .error-message { grid-column: 1 / -1; text-align: center; padding: 2rem; font-size: 1.1rem; }
+        .loading-placeholder .spinner { border: 4px solid rgba(0, 0, 0, 0.1); width: 36px; height: 36px; border-radius: 50%; border-left-color: var(--primary-color); animation: spin 1s ease infinite; margin: 0 auto 1rem; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .error-message { color: #c0392b; background-color: #fbeae5; border: 1px solid #e74c3c; border-radius: 5px; margin-top: 1rem; padding: 1rem; }
+        .success-message { color: #27ae60; background-color: #e8f8f0; border: 1px solid #2ecc71; border-radius: 5px; margin-top: 1rem; padding: 1rem;}
+        .info-message { color: #555; }
+
+        /* === GALERÍA SLIDER === */
+        .gallery-section { overflow: hidden; } 
+        .gallery-slider-container { position: relative; max-width: 800px; margin: 0 auto; }
+        .gallery-slider { position: relative; width: 100%; height: 450px; overflow: hidden; border-radius: 10px; box-shadow: var(--card-shadow); }
+        .gallery-slide {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0; transition: opacity 0.6s ease-in-out; visibility: hidden;
+        }
+        .gallery-slide.active { opacity: 1; visibility: visible; z-index: 1; }
+        .gallery-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .gallery-slide-caption { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.75)); color: var(--light-text-color); padding: 2rem 1.5rem 1.5rem; text-align: center; }
+        .gallery-slide-caption h4 { color: var(--light-text-color); margin-bottom: 0.4rem; font-size: 1.4rem; }
+        .gallery-slide-caption p { font-size: 1rem; opacity: 0.9; }
+        .gallery-slider-nav { text-align: center; margin-top: 1.5rem; }
+        .gallery-slider-nav button { background: var(--secondary-color); color: white; border: none; padding: 0.7rem 1.2rem; margin: 0 0.4rem; border-radius: 25px; cursor: pointer; font-size: 1.1rem; transition: background-color 0.3s; }
+        .gallery-slider-nav button:hover { background: var(--primary-color); }
+        .gallery-slider-nav button:disabled { background: #ccc; cursor: not-allowed; opacity: 0.7;}
+
+        /* === TESTIMONIOS === */
+        .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .testimonial-card { background: var(--background-color); padding: 2rem; border-radius: 10px; box-shadow: var(--card-shadow); text-align: center; border-left: 5px solid var(--accent-color); }
+        .testimonial-card:hover { box-shadow: var(--card-hover-shadow); transform: translateY(-5px); transition: all 0.3s ease; }
+        .testimonial-image { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; margin: 0 auto 1rem; border: 3px solid var(--secondary-color); }
+        .testimonial-text { font-style: italic; color: #555; margin-bottom: 1rem; font-size: 1rem; line-height: 1.6; }
+        .testimonial-author { font-weight: 600; color: var(--primary-color); font-size: 1.1rem; }
+        .testimonial-author span { display: block; font-weight: 400; color: var(--text-color); font-size: 0.9rem; margin-top: 0.2rem; }
+
+        /* === RECONOCIMIENTOS / CERTIFICADOS === */
+        .certificates-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; align-items: center; }
+        .certificate-item { text-align: center; }
+        .certificate-item img { max-width: 100%; height: auto; max-height: 180px; object-fit: contain; margin:0 auto 0.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: transform 0.3s ease; border: 1px solid var(--border-color); padding: 5px; background-color: white; }
+        .certificate-item img:hover { transform: scale(1.05); }
+        .certificate-item p { font-size: 0.9rem; color: var(--text-color); font-weight: 600; }
+        .certificate-item small { font-size: 0.8rem; color: #777; display:block; }
+
+        /* === CONTACTO Y FOOTER === */
+        .contact-section { background-color: var(--primary-color); color: var(--light-text-color); padding: 4rem 0; text-align: center; }
+        .contact-section h2 { color: var(--light-text-color); }
+        /* --- CAMBIO DE COLOR DEL SUBTÍTULO EN SECCIÓN CONTACTO --- */
+        .contact-section .contact-section-subtitle { 
+            color: #E0E0E0; /* Gris claro, ajustable */
+            opacity: 0.95; /* Ajusta si es necesario */
+        }
+        #contact-form { max-width: 700px; margin: 0 auto; background-color: var(--background-color); padding: 2.5rem; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: left; }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; font-family: var(--font-primary); font-weight: 600; color: var(--primary-color); margin-bottom: 0.5rem; }
+        .form-group input[type="text"], .form-group input[type="email"], .form-group textarea { width: 100%; padding: 0.9rem 1rem; border: 1px solid var(--border-color); border-radius: 5px; font-family: var(--font-secondary); font-size: 1rem; transition: border-color 0.3s ease; }
+        .form-group input[type="text"]:focus, .form-group input[type="email"]:focus, .form-group textarea:focus { outline: none; border-color: var(--secondary-color); box-shadow: 0 0 0 2px rgba(0, 174, 239, 0.2); }
+        .form-group textarea { min-height: 120px; resize: vertical; }
+        #contact-form button[type="submit"] { display: block; width: 100%; background-color: var(--accent-color); color: var(--light-text-color); border: none; padding: 1rem; font-family: var(--font-primary); font-weight: 600; font-size: 1.1rem; border-radius: 5px; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease; }
+        #contact-form button[type="submit"]:hover { background-color: #d88c0a; transform: translateY(-2px); }
+        #contact-form button[type="submit"]:disabled { background-color: #cccccc; cursor: not-allowed; }
+        #form-feedback { margin-top: 1.5rem; text-align: center; font-weight: 600;}
+
+        .site-footer { background-color: #2C3E50; color: #BDC3C7; padding-top: 3rem; font-size: 0.95rem; }
+        .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; padding-bottom: 2rem; border-bottom: 1px solid #34495E; }
+        .footer-about h3, .footer-links h4, .footer-contact h4, .footer-social h4 { color: var(--light-text-color); font-family: var(--font-primary); margin-bottom: 1rem; font-size: 1.2rem; }
+        .footer-about p { line-height: 1.6; margin-bottom: 1rem; }
+        .footer-links ul li { margin-bottom: 0.5rem; }
+        .footer-links a { color: #BDC3C7; transition: color 0.3s ease, padding-left 0.3s ease; }
+        .footer-links a:hover { color: var(--secondary-color); padding-left: 5px; }
+        .footer-contact p { margin-bottom: 0.5rem; display: flex; align-items: center; }
+        .footer-contact i { margin-right: 0.75rem; color: var(--secondary-color); width: 20px; text-align: center; }
+        .footer-social a { display: inline-block; width: 40px; height: 40px; line-height: 40px; text-align: center; border-radius: 50%; background-color: #34495E; color: var(--light-text-color); margin-right: 0.5rem; transition: background-color 0.3s ease, transform 0.3s ease; }
+        .footer-social a:hover { background-color: var(--secondary-color); color: var(--light-text-color); transform: translateY(-3px); }
+        .footer-bottom { text-align: center; padding: 1.5rem 0; font-size: 0.9rem; }
+        .footer-bottom i.fa-heart { color: var(--accent-color); }
+
+        /* === RESPONSIVE STYLES === */
+        @media (max-width: 992px) { 
+            .main-navigation ul { gap: 0.8rem; }
+            .main-navigation a { font-size: 0.9rem; padding: 0.5rem 0.1rem;}
+             .main-navigation { 
+                display: none; flex-direction: column; position: absolute; top: calc(100% - 1px); 
+                left: 0; width: 100%; background-color: rgba(255,255,255,0.98); 
+                box-shadow: 0 8px 15px rgba(0,0,0,0.1); border-top: 1px solid var(--border-color);
+                padding: 1rem 0; backdrop-filter: blur(5px); 
+            }
+            .main-navigation.active { display: flex; } 
+            .main-navigation ul { flex-direction: column; width:100%; text-align:center; gap: 0.5rem; }
+            .main-navigation li { width: 100%; }
+            .main-navigation a { display: block; padding: 0.7rem 1.2rem; width: 100%; border-bottom: 1px solid var(--light-gray-bg); font-size: 0.95rem; }
+            .main-navigation li:last-child a { border-bottom: none; }
+            .main-navigation a::after { display: none; }
+            .main-navigation a:hover { background-color: var(--light-gray-bg); color: var(--primary-color); }
+            .menu-toggle { display: block; }
+        }
+        @media (max-width: 768px) { 
+            html { font-size: 15px; } 
+            .hero .hero-title { font-size: 1.9rem; } 
+            .hero p { font-size: 1rem; }
+            .services-grid { grid-template-columns: 1fr; }
+            .footer-content { grid-template-columns: 1fr; text-align: center; }
+            .footer-contact p { justify-content: center; }
+            .footer-social { margin-top: 1rem; }
+            #contact-form { padding: 1.5rem; }
+            h2 { font-size: 1.5rem; } h3 { font-size: 1.25rem; }
+            .service-card-content h4 { font-size: 1.05rem; }
+            .gallery-slider { height: 320px; } 
+            .gallery-slide-caption h4 { font-size: 1.05rem; }
+            .gallery-slide-caption p { font-size: 0.8rem; }
+            .testimonials-grid { grid-template-columns: 1fr; }
+            .certificates-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+        }
+         @media (max-width: 480px) {
+            html { font-size: 14px; }
+            .main-navigation a { padding: 0.6rem 1rem; font-size: 0.85rem; }
+            .logo {font-size: 1.5rem;}
+            .hero { padding: 2.5rem 0;}
+            .hero .hero-title { font-size: 1.7rem; } 
+            .hero p { font-size: 0.9rem; }
+            .cta-button { padding: 0.6rem 1.6rem; font-size: 0.95rem; }
+            h2 { font-size: 1.3rem; } h3 { font-size: 1.15rem; }
+            .section-padding { padding: 1.8rem 0; }
+            .services-grid { gap: 1rem; }
+            .service-card-content { padding: 1rem; }
+            .gallery-slider { height: 280px; }
+            .service-card-content h4 { font-size: 1rem; }
+            .service-card-description { font-size: 0.85rem; }
+            .service-card-link { font-size: 0.75rem; padding: 0.4rem 0.9rem;}
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container header-content">
+            <a href="#" class="logo">TADEO</a>
+            <nav class="main-navigation">
+                <ul>
+                    <li><a href="#" class="active">Inicio</a></li>
+                    <li><a href="#services-main-section">Programas</a></li>
+                    <li><a href="#gallery-section">Galería</a></li>
+                    <li><a href="#testimonials-section">Testimonios</a></li>
+                    <li><a href="#recognition-section">Reconocimientos</a></li>
+                    <li><a href="#contact-section">Contacto</a></li>
+                </ul>
+            </nav>
+            <button class="menu-toggle" aria-label="Abrir menú" aria-expanded="false">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <h1 class="hero-title">TADEO</h1>
+                <p>Transforma tu enfoque de gestión con TADEO. Ofrecemos formación de vanguardia, soluciones tecnológicas y recursos de conocimiento para impulsar tu éxito y el de tu organización.</p>
+                <a href="#services-main-section" class="cta-button">Explorar Programas y Servicios</a>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services-main-section" class="section-padding bg-light services-main-section">
+            <div class="container">
+                <h2>Nuestra Oferta Integral</h2>
+                <p class="section-subtitle">Desde diplomados en vivo hasta soluciones tecnológicas a medida, te ofrecemos las herramientas para alcanzar tus metas.</p>
+                <div id="services-categories-container">
+                    <div class="loading-placeholder" id="loading-message-services"><div class="spinner"></div><p>Cargando programas y servicios...</p></div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Gallery Section -->
+        <section id="gallery-section" class="section-padding gallery-section">
+            <div class="container">
+                <h2>Galería de Momentos TADEO</h2>
+                <p class="section-subtitle">Un vistazo a nuestros eventos, talleres y la comunidad que estamos construyendo.</p>
+                <div id="gallery-slider-container" class="gallery-slider-container">
+                    <div class="gallery-slider" id="gallery-slider">
+                        <!-- Las imágenes de la galería se cargarán aquí -->
+                    </div>
+                </div>
+                <div class="gallery-slider-nav" id="gallery-slider-nav">
+                    <button id="gallery-prev" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
+                    <button id="gallery-next" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
+                </div>
+                <div id="loading-message-gallery" class="loading-placeholder" style="display:none;"><div class="spinner"></div><p>Cargando galería...</p></div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section id="testimonials-section" class="section-padding bg-light testimonials-section">
+            <div class="container">
+                <h2>Lo que Dicen de Nosotros</h2>
+                <p class="section-subtitle">La experiencia y satisfacción de nuestros clientes y alumnos es nuestro mayor orgullo.</p>
+                <div id="testimonials-grid" class="testimonials-grid">
+                    <!-- Los testimonios se cargarán aquí -->
+                </div>
+                <div id="loading-message-testimonials" class="loading-placeholder" style="display:none;"><div class="spinner"></div><p>Cargando testimonios...</p></div>
+            </div>
+        </section>
+        
+        <!-- Recognition Section -->
+        <section id="recognition-section" class="section-padding recognition-section">
+            <div class="container">
+                <h2>Nuestros Reconocimientos y Certificaciones</h2>
+                <p class="section-subtitle">Comprometidos con la calidad y la excelencia, avalada por entidades y nuestros logros.</p>
+                <div id="certificates-grid" class="certificates-grid">
+                    <!-- Los certificados se cargarán aquí -->
+                </div>
+                <div id="loading-message-certificates" class="loading-placeholder" style="display:none;"><div class="spinner"></div><p>Cargando reconocimientos...</p></div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact-section" class="contact-section">
+             <div class="container">
+                <h2>¿Interesado en Algún Programa o Solución?</h2>
+                <p class="section-subtitle contact-section-subtitle">¡Excelente! Déjanos tus datos y un asesor se pondrá en contacto contigo a la brevedad para brindarte toda la información que necesitas.</p>
+                <form id="contact-form">
+                    <div class="form-group"><label for="contact-name">Nombre Completo</label><input type="text" id="contact-name" name="name" placeholder="Tu nombre y apellidos" required></div>
+                    <div class="form-group"><label for="contact-email">Correo Electrónico</label><input type="email" id="contact-email" name="email" placeholder="ejemplo@correo.com" required></div>
+                    <div class="form-group"><label for="contact-subject">Programa o Servicio de Interés</label><input type="text" id="contact-subject" name="subject" placeholder="Ej: Diplomado en IA, Consultoría TEC" required></div>
+                    <div class="form-group"><label for="contact-message">Mensaje Adicional (Opcional)</label><textarea id="contact-message" name="message" placeholder="¿Alguna pregunta específica?"></textarea></div>
+                    <button type="submit" id="submit-button">Solicitar Información</button>
+                    <div id="form-feedback"></div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <div class="footer-about"><h3>TADEO</h3><p>Formación y tecnología para un futuro innovador y competitivo.</p></div>
+            <div class="footer-links"><h4>Enlaces Rápidos</h4><ul><li><a href="#">Inicio</a></li><li><a href="#services-main-section">Programas</a></li><li><a href="#gallery-section">Galería</a></li><li><a href="#testimonials-section">Testimonios</a></li><li><a href="#recognition-section">Reconocimientos</a></li><li><a href="#contact-section">Contacto</a></li></ul></div>
+            <div class="footer-contact"><h4>Contáctanos</h4><p><i class="fas fa-map-marker-alt"></i> Tacna, Perú (Atención Virtual)</p><p><i class="fab fa-whatsapp"></i> +51 952 632 602</p><p><i class="fas fa-envelope"></i> info@tadeo.com</p></div>
+            <div class="footer-social"><h4>Síguenos</h4><a href="#" aria-label="Facebook" title="Facebook"><i class="fab fa-facebook-f"></i></a><a href="#" aria-label="LinkedIn" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a><a href="#" aria-label="Instagram" title="Instagram"><i class="fab fa-instagram"></i></a></div>
+        </div>
+        <div class="footer-bottom"><p>© <span id="current-year"></span> TADEO. Todos los derechos reservados.</p></div>
+    </footer>
+
+    <script>
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw_TuSi4cbI5cUUMNKU2ZWCdKDvbwfXxgDdq519tuTFOr6K4fMNW9Z9A_1-SQvoF58f/exec'; // <-- ¡¡¡RECUERDA CAMBIAR ESTO!!!
+        let currentGallerySlideIndex = 0; 
+        let galleryItemsData = []; 
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchAllDataAndRender(); 
+
+            const menuToggle = document.querySelector('.menu-toggle');
+            const mainNav = document.querySelector('.main-navigation');
+            if (menuToggle && mainNav) {
+                 menuToggle.addEventListener('click', () => {
+                    const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true' || false;
+                    menuToggle.setAttribute('aria-expanded', !isExpanded);
+                    mainNav.classList.toggle('active');
+                    menuToggle.innerHTML = !isExpanded ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+                });
+            }
+            
+            const currentYearSpan = document.getElementById('current-year');
+            if(currentYearSpan) currentYearSpan.textContent = new Date().getFullYear();
+
+            // Código del formulario de contacto
+            const contactForm = document.getElementById('contact-form');
+            const formFeedback = document.getElementById('form-feedback');
+            const submitButton = document.getElementById('submit-button');
+
+            if (contactForm) {
+                contactForm.addEventListener('submit', async (event) => {
+                    event.preventDefault();
+                    submitButton.disabled = true;
+                    submitButton.textContent = 'Enviando Solicitud...';
+                    formFeedback.innerHTML = ''; 
+
+                    const formData = new FormData(contactForm);
+                    
+                    try {
+                        const response = await fetch(SCRIPT_URL, {
+                            method: 'POST',
+                            body: formData,
+                        });
+
+                        if (!response.ok) {
+                             let errorText = `Error del servidor: ${response.status} ${response.statusText}`;
+                             try {
+                                const errorResult = await response.json();
+                                if(errorResult && errorResult.error) errorText += ` (${errorResult.error})`;
+                             } catch(e){}
+                             throw new Error(errorText);
+                        }
+
+                        const result = await response.json();
+
+                        if (result.success) {
+                            formFeedback.innerHTML = `<p class="success-message">${result.message || '¡Solicitud enviada con éxito! Nos pondremos en contacto pronto.'}</p>`;
+                            contactForm.reset();
+                        } else {
+                            throw new Error(result.error || 'Ocurrió un error al enviar la solicitud.');
+                        }
+
+                    } catch (error) {
+                        formFeedback.innerHTML = `<p class="error-message">Error: ${error.message}. Por favor, inténtalo de nuevo.</p>`;
+                    } finally {
+                        submitButton.disabled = false;
+                        submitButton.textContent = 'Solicitar Información';
+                    }
+                });
+            }
+        });
+
+        async function fetchAllDataAndRender() {
+            showLoading('services', true); showLoading('gallery', true); showLoading('testimonials', true); showLoading('certificates', true);
+            try {
+                const response = await fetch(SCRIPT_URL); 
+                if (!response.ok) { 
+                    let errorBody = `Error al cargar datos: ${response.status} ${response.statusText}`;
+                    try { const errorJson = await response.json(); if (errorJson && errorJson.error) errorBody += ` (${errorJson.error})`; } catch (e) {}
+                    throw new Error(errorBody);
+                }
+                const result = await response.json();
+                
+                window.fetchedPageData = result;
+
+                if (result.success && result.data) {
+                    if (result.data.services && result.data.services.length > 0) {
+                        const groupedServices = groupServicesByProperty(result.data.services, 'categoria');
+                        renderGroupedDataFromObject(groupedServices, document.getElementById('services-categories-container'), result.data.services);
+                    } else { document.getElementById('services-categories-container').innerHTML = '<p class="info-message">No hay programas.</p>'; }
+                    showLoading('services', false);
+
+                    if (result.data.galleryItems && result.data.galleryItems.length > 0) {
+                        galleryItemsData = result.data.galleryItems;
+                        renderGallerySlides(); 
+                        setupGalleryNavigation();
+                    } else { 
+                        const galleryContainer = document.getElementById('gallery-slider-container');
+                        const galleryNav = document.getElementById('gallery-slider-nav');
+                        if(galleryContainer) galleryContainer.innerHTML = '<p class="info-message">Galería no disponible.</p>';
+                        if(galleryNav) galleryNav.style.display = 'none';
+                    }
+                    showLoading('gallery', false);
+
+                    if (result.data.testimonials && result.data.testimonials.length > 0) { renderTestimonials(result.data.testimonials); } 
+                    else { document.getElementById('testimonials-grid').innerHTML = '<p class="info-message">No hay testimonios.</p>'; }
+                    showLoading('testimonials', false);
+                    
+                    if (result.data.certificates && result.data.certificates.length > 0) { renderCertificates(result.data.certificates); } 
+                    else { document.getElementById('certificates-grid').innerHTML = '<p class="info-message">No hay reconocimientos.</p>'; }
+                    showLoading('certificates', false);
+                } else { throw new Error(result.error || 'Datos no recibidos.'); }
+            } catch (error) { 
+                console.error('Error en fetchAllDataAndRender:', error);
+                const mainContainers = ['services-categories-container', 'gallery-slider-container', 'testimonials-grid', 'certificates-grid'];
+                mainContainers.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.innerHTML = `<p class="error-message">Error al cargar contenido: ${error.message}.</p>`;
+                });
+                showLoading('services', false); showLoading('gallery', false); showLoading('testimonials', false); showLoading('certificates', false);
+            }
+        }
+
+        // ... (todas las funciones de renderizado y auxiliares se mantienen igual que en la respuesta anterior)
+        function showLoading(section, isLoading) { 
+            const el = document.getElementById(`loading-message-${section}`);
+            if (el) el.style.display = isLoading ? 'block' : 'none';
+        }
+        function groupServicesByProperty(services, propertyName) {
+            const grouped = {};
+            const defaultCategory = "Otros Servicios"; 
+            services.forEach(service => {
+                const categoryName = (service[propertyName] && service[propertyName].trim() !== "") ? service[propertyName].trim() : defaultCategory;
+                if (!grouped[categoryName]) { grouped[categoryName] = []; }
+                grouped[categoryName].push(service); 
+            });
+            return grouped;
+        }
+        function renderGroupedDataFromObject(groupedData, container, originalServices) { 
+            container.innerHTML = ''; 
+            const uniqueCategoriesInOrder = [];
+            if (originalServices && Array.isArray(originalServices)) {
+                 originalServices.forEach(service => {
+                    const cat = (service.categoria && service.categoria.trim() !== "") ? service.categoria.trim() : "Otros Servicios";
+                    if (!uniqueCategoriesInOrder.includes(cat)) { uniqueCategoriesInOrder.push(cat); }
+                });
+            } else { 
+                for (const categoryName in groupedData) {
+                    if (groupedData.hasOwnProperty(categoryName)) { uniqueCategoriesInOrder.push(categoryName); }
+                }
+            }
+            uniqueCategoriesInOrder.forEach(categoryName => {
+                if (groupedData[categoryName] && groupedData[categoryName].length > 0) {
+                    renderCategorySection(categoryName, groupedData[categoryName], container);
+                }
+            });
+        }
+        function renderCategorySection(categoryName, serviceList, container) {
+            const categoryDiv = document.createElement('div');
+            categoryDiv.classList.add('service-category-group');
+            const titleElement = document.createElement('h3');
+            titleElement.textContent = categoryName;
+            categoryDiv.appendChild(titleElement);
+            const servicesGrid = document.createElement('div');
+            servicesGrid.classList.add('services-grid');
+            serviceList.forEach(service => { servicesGrid.appendChild(createServiceCardDirectly(service)); });
+            categoryDiv.appendChild(servicesGrid);
+            container.appendChild(categoryDiv);
+        }
+        function createServiceCardDirectly(serviceData) {
+            const card = document.createElement('article');
+            card.classList.add('service-card');
+            let imageHtml = (serviceData.imagenURL && serviceData.imagenURL.trim().toLowerCase().startsWith('http')) 
+                ? `<img src="${serviceData.imagenURL.trim()}" alt="${serviceData.titulo}" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\\"fas fa-layer-group placeholder-icon\\"></i>';">`
+                : '<i class="fas fa-layer-group placeholder-icon"></i>';
+            let descriptionHtml = (serviceData.descripcion && serviceData.descripcion.trim() !== "")
+                ? `<p class="service-card-description">${serviceData.descripcion.trim()}</p>`
+                : `<p class="service-card-description"><i>Información detallada próximamente.</i></p>`;
+            let linkHtml = (serviceData.linkURL && serviceData.linkURL.trim().toLowerCase().startsWith('http'))
+                ? `<a href="${serviceData.linkURL.trim()}" class="service-card-link" target="_blank" rel="noopener noreferrer">Más Información</a>`
+                : `<a href="#contact-section" class="service-card-link">Consultar</a>`;
+            card.innerHTML = `
+                <div class="service-card-image-container">${imageHtml}</div>
+                <div class="service-card-content">
+                    <h4>${serviceData.titulo}</h4> 
+                    ${descriptionHtml}
+                    <div class="service-card-link-wrapper">${linkHtml}</div>
+                </div>`;
+            return card;
+        }
+        function renderTestimonials(testimonials) {
+            const grid = document.getElementById('testimonials-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+            testimonials.forEach(testimonial => {
+                const card = document.createElement('div');
+                card.classList.add('testimonial-card');
+                const imgSrc = testimonial.imagenPersonaURL || `https://via.placeholder.com/90/005A9C/FFFFFF?text=${testimonial.nombrePersona ? testimonial.nombrePersona.charAt(0) : 'T'}`;
+                card.innerHTML = `
+                    <img src="${imgSrc}" alt="${testimonial.nombrePersona || 'Cliente'}" class="testimonial-image">
+                    <p class="testimonial-text">"${testimonial.testimonioTexto || 'Un excelente servicio.'}"</p>
+                    <p class="testimonial-author">${testimonial.nombrePersona || 'Cliente Satisfecho'}
+                        ${testimonial.cargoEmpresa ? `<span>${testimonial.cargoEmpresa}</span>` : ''}
+                    </p>`;
+                grid.appendChild(card);
+            });
+        }
+        function renderCertificates(certificates) {
+            const grid = document.getElementById('certificates-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+            certificates.forEach(cert => {
+                const item = document.createElement('div');
+                item.classList.add('certificate-item');
+                const imgSrc = cert.imagenCertificadoURL || 'https://via.placeholder.com/300x200/cccccc/888888?text=Certificado';
+                item.innerHTML = `
+                    <img src="${imgSrc}" alt="${cert.tituloCertificado || 'Certificación TADEO'}">
+                    <p>${cert.tituloCertificado || 'Reconocimiento Oficial'}</p>
+                    ${cert.fechaObtencion ? `<small>Obtenido: ${cert.fechaObtencion}</small>`:''}`;
+                grid.appendChild(item);
+            });
+        }
+        function renderGallerySlides() {
+            const slider = document.getElementById('gallery-slider');
+            const navContainer = document.getElementById('gallery-slider-nav');
+            if (!slider || !galleryItemsData || galleryItemsData.length === 0) {
+                if(slider) slider.innerHTML = '<p class="info-message">No hay imágenes en la galería.</p>';
+                if (navContainer) navContainer.style.display = 'none';
+                return;
+            }
+            slider.innerHTML = ''; 
+            galleryItemsData.forEach((item, index) => {
+                const slide = document.createElement('div');
+                slide.classList.add('gallery-slide');
+                // if (index === 0) slide.classList.add('active'); // El primer slide será activado por showGallerySlide
+                
+                let descriptionHtml = item.descripcion ? `<p>${item.descripcion}</p>` : '';
+                slide.innerHTML = `
+                    <img src="${item.imagenURL || 'https://via.placeholder.com/800x450/cccccc/888888?text=Imagen+TADEO'}" alt="${item.titulo || 'Galería TADEO'}">
+                    <div class="gallery-slide-caption">
+                        <h4>${item.titulo || ''}</h4>
+                        ${descriptionHtml}
+                    </div>`;
+                slider.appendChild(slide);
+            });
+            currentGallerySlideIndex = 0; 
+            showGallerySlide(currentGallerySlideIndex); 
+            if (navContainer) navContainer.style.display = galleryItemsData.length > 1 ? 'block' : 'none';
+        }
+        function setupGalleryNavigation() {
+            const prevButton = document.getElementById('gallery-prev');
+            const nextButton = document.getElementById('gallery-next');
+            if (!prevButton || !nextButton || galleryItemsData.length <= 1) return;
+            prevButton.addEventListener('click', () => showGallerySlide(currentGallerySlideIndex - 1));
+            nextButton.addEventListener('click', () => showGallerySlide(currentGallerySlideIndex + 1));
+        }
+        function showGallerySlide(index) {
+            const slides = document.querySelectorAll('#gallery-slider .gallery-slide');
+            if (slides.length === 0) return;
+            currentGallerySlideIndex = (index + slides.length) % slides.length;
+            slides.forEach((slide, i) => slide.classList.toggle('active', i === currentGallerySlideIndex));
+        }
+    </script>
+</body>
+</html>
